@@ -21,11 +21,11 @@ class TestCollector(TestCase):
         cls.appd_credentials = test_config
         super().setUpClass()
 
-    def _test_init(self):
+    def test_init(self):
         v_info = self.monitoring.DataSource.init({'options': {}})
         print_json(v_info)
 
-    def _test_verify(self):
+    def test_verify(self):
         options = {
         }
         v_info = self.monitoring.DataSource.verify({'options': options, 'secret_data': self.appd_credentials})

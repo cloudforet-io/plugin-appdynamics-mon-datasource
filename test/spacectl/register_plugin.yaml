@@ -5,6 +5,7 @@ capability:
   monitoring_type: METRIC
   supported_schema:
   - appdynamics_client_secret
+  use_resource_secret: true
 tags:
   icon: https://spaceone-custom-assets.s3.ap-northeast-2.amazonaws.com/console-assets/icons/appdynamics-icon.svg
 template: {}
