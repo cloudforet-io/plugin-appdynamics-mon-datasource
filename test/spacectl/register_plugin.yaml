@@ -1,8 +1,15 @@
-name: Cisco AppDynamics
+name: Cisco AppDynamics Monitoring
 service_type: monitoring.DataSource
 image: pyengine/plugin-appdynamics-mon-datasource
-capability: {}
+capability:
+  monitoring_type: METRIC
+  supported_schema:
+  - appdynamics_client_secret
 tags:
   icon: https://spaceone-custom-assets.s3.ap-northeast-2.amazonaws.com/console-assets/icons/appdynamics-icon.svg
 template: {}
 provider: appdynamics
+labels:
+- Monitoring
+- AppDynamics
+- Cisco
