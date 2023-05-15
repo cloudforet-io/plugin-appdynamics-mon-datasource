@@ -1,0 +1,5 @@
+GLOBAL:
+  SERVICE: monitoring
+  ENDPOINTS:
+    monitoring:
+      plugin: localhost:50051
