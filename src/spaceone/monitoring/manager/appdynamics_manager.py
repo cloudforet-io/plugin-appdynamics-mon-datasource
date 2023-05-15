@@ -21,7 +21,7 @@ class AppdynamicsManager(BaseManager):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.appdynamics_connector: MetricConnector = self.locator.get_connector('AppdynamicsConnector')
+        self.appdynamics_connector: AppdynamicsConnector = self.locator.get_connector('AppdynamicsConnector')
 
     def verify(self, schema, options, secret_data):
         """ Check connection
@@ -32,24 +32,23 @@ class AppdynamicsManager(BaseManager):
         self.appdynamics_connector.set_connect(secret_data)
 
     def list_metrics(self, schema, options, secret_data, query):
+        self.metric_connector: MetricConnector = self.locator.get_connector('MetricConnector')
+
         metrics_info = []
 
-        self.appdynamics_connector.set_connect(schema, options, secret_data)
+        self.metric_connector.set_connect(secret_data)
 
-        for metric in self.appdynamics_connector.list_metrics(query.get('resource_id')):
+        for metric in self.metric_connector.list_metrics(query):
+            if metric.get("type", None) != "leaf":
+                continue
+            name = metric.get("name", None)
+            # TODO: check name
             _metric = {
-                'key': metric.name.value,
-                'name': metric.name.value,
-                'metric_query': {
-                    'resource_id': query.get('resource_id')
+                'key': name,
+                'name': name,
+                'metric_query': {       # metric_query is used for get_metric_data
                 }
             }
-
-            if getattr(metric, 'unit', None):
-                _metric.update({'unit': {'x': 'Timestamp', 'y': metric.unit}})
-
-            if getattr(metric, 'namespace', None):
-                _metric.update({'group': metric.namespace})
 
             metrics_info.append(_metric)
 

@@ -15,7 +15,7 @@ class MetricService(BaseService):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.appdynamics_mgr: AppdynamicsManager = self.locator.get_manager('AppdynamicsManager')
+        self.appd_mgr: AppdynamicsManager = self.locator.get_manager('AppdynamicsManager')
         self.metric_mgr: MetricManager = self.locator.get_manager('MetricManager')
 
     @transaction
@@ -34,7 +34,7 @@ class MetricService(BaseService):
         Returns:
             plugin_metrics_response (dict)
         """
-        metrics_info = self.appdynamics_mgr.list_metrics(params.get('schema', DEFAULT_SCHEMA), params['options'],
+        metrics_info = self.appd_mgr.list_metrics(params.get('schema', DEFAULT_SCHEMA), params['options'],
                                                    params['secret_data'], params['query'])
 
         return self.metric_mgr.make_metrics_response(metrics_info)
@@ -61,7 +61,7 @@ class MetricService(BaseService):
         Returns:
             plugin_metric_data_response (dict)
         """
-        metric_data_info = self.appdynamics_mgr.get_metric_data(params.get('schema', DEFAULT_SCHEMA), params['options'],
+        metric_data_info = self.metric_mgr.get_metric_data(params.get('schema', DEFAULT_SCHEMA), params['options'],
                                                           params['secret_data'],
                                                           params['metric_query'], params['metric'],
                                                           params['start'], params['end'], params.get('period'),

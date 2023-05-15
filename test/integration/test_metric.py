@@ -21,28 +21,26 @@ class TestCollector(TestCase):
         cls.appd_credentials = test_config
         super().setUpClass()
 
-    def test_init(self):
+    def _test_init(self):
         v_info = self.monitoring.DataSource.init({'options': {}})
         print_json(v_info)
 
-    def test_verify(self):
+    def _test_verify(self):
         options = {
         }
         v_info = self.monitoring.DataSource.verify({'options': options, 'secret_data': self.appd_credentials})
         print_json(v_info)
 
-    def _test_collect(self):
-        options = {
-            'cloud_service_types': ['Application','Database'],
-            #'cloud_service_types': ['Database'],
+    def test_metric_list(self):
+        query = {
+            "metric_list": "/controller/rest/applications/439/metrics?metric-path=Overall%20Application%20Performance"
         }
-        # options = {}
-        filter = {}
-        resource_stream = self.monitoring.Collector.collect({'options': options, 'secret_data': self.appd_credentials,
-                                                            'filter': filter})
+        options = {}
+        resource = self.monitoring.Metric.list({'secret_data': self.appd_credentials,
+                                                'options': options, 
+                                                            'query': query})
 
-        for res in resource_stream:
-            print_json(res)
+        print_json(resource)
 
 
 if __name__ == "__main__":

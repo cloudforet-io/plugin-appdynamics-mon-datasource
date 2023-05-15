@@ -61,16 +61,20 @@ class AppdynamicsConnector(BaseConnector):
         # TODO
         return "ACTIVE"
 
-    def make_request(self, path):
+    def make_request(self, path, delimiter="?"):
+        """
+        delimiter: ? or &
+        """
         headers = {
                 "Authorization" : f"Bearer {self.access_token}"
                 }
         full_url = urljoin(self.base_url, path)
-        response = requests.get(full_url + "?output=JSON", headers=headers)
+        full_path = full_url + f"{delimiter}output=JSON"
+        response = requests.get(full_path, headers=headers)
         if response.status_code == 200:
             print("******* response ******")
             print(response.json())
             return response.json()
         # fail to request
         # TODO
-        print(f"Failed {full_url}")
+        print(f"Failed {full_path}")

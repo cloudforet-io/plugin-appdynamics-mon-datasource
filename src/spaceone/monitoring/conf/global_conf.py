@@ -2,9 +2,7 @@ CONNECTORS = {
     'AppdynamicsConnector': {
         'backend': 'spaceone.monitoring.libs.connector.AppdynamicsConnector',
     },
-    'MetricConnector': {
-        'backend': 'spaceone.monitoring.connector.metric.MetricConnector',
-    },
+    'MetricConnector': {}
 }
 
 LOG = {

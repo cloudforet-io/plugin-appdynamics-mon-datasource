@@ -11,7 +11,7 @@ _SUPPORTED_STAT = [
     'SUM'
 ]
 
-_REQUIRED_KEYS = ['data.appdynamics_monitor']
+_REQUIRED_KEYS = ['data.appdynamics_monitoring.metric']
 _SUPPORTED_PROVIDERS = ['appdynamics']
 
 

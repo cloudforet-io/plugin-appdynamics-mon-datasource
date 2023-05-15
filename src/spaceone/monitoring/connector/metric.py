@@ -19,9 +19,14 @@ class MetricConnector(AppdynamicsConnector):
     """
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.set_connect(kwargs.get('secret_data'))
+        #self.set_connect(kwargs.get('secret_data'))
 
-    def list_all_applications(self):
+    def list_metrics(self, query):
+        """
+        query: {
+            "metric_list": "/controller/rest/applications/{application_id}/metrics?metric-path={metric_path}"
+        }
+        """
         # GET /controller/rest/applications
-        PATH = "/controller/rest/applications"
-        return self.make_request(PATH)
+        PATH = query.get("metric_list", None)
+        return self.make_request(PATH, "&")
