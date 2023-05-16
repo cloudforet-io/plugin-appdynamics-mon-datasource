@@ -61,7 +61,7 @@ class MetricService(BaseService):
         Returns:
             plugin_metric_data_response (dict)
         """
-        metric_data_info = self.metric_mgr.get_metric_data(params.get('schema', DEFAULT_SCHEMA), params['options'],
+        metric_data_info = self.appd_mgr.get_metric_data(params.get('schema', DEFAULT_SCHEMA), params['options'],
                                                           params['secret_data'],
                                                           params['metric_query'], params['metric'],
                                                           params['start'], params['end'], params.get('period'),

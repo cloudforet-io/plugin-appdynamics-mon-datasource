@@ -24,9 +24,37 @@ class MetricConnector(AppdynamicsConnector):
     def list_metrics(self, query):
         """
         query: {
-            "metric_list": "/controller/rest/applications/{application_id}/metrics?metric-path={metric_path}"
+            "path": "/controller/rest/applications/{application_id}/metrics"
+            "params": {
+                "metric-path": "Overall Application Performance"
+            }
         }
         """
         # GET /controller/rest/applications
-        PATH = query.get("metric_list", None)
-        return self.make_request(PATH, "&")
+        path = query.get("path", None)
+        if path is None:
+            print(query)
+            # TODO: raise ERROR_REQUIRED_PARAMETER(key="path")
+        params = query.get("params", None)
+        return self.make_request(path, params)
+
+
+    def get_metric_data(self, query):
+        """
+        query: {
+            "path": "/controller/rest/applications/{application_id}/metric-data"
+            "params": {
+                "metric-path": "Overall Application Performance%7CCalls per Minute",
+                "start-time": "",
+                "end-time": "",
+                "rollup": "false",
+            }
+        }
+        """
+        # GET /controller/rest/applications
+        path = query.get("path", None)
+        if path is None:
+            print(query)
+            # TODO: raise ERROR_REQUIRED_PARAMETER(key="path")
+        params = query.get("params", None)
+        return self.make_request(path, params)

@@ -2,7 +2,7 @@ import os
 import logging
 import requests
 
-from urllib.parse import urljoin, urlencode
+from urllib.parse import urljoin, urlencode, quote
 from spaceone.core.connector import BaseConnector
 
 DEFAULT_SCHEMA = 'appdynamics_client_secret'
@@ -61,15 +61,19 @@ class AppdynamicsConnector(BaseConnector):
         # TODO
         return "ACTIVE"
 
-    def make_request(self, path, delimiter="?"):
+    def make_request(self, path, param={}):
         """
-        delimiter: ? or &
+        path: /controller/rest/applications
+        param: {"p1": "v1", "p2": "v2"}
         """
         headers = {
                 "Authorization" : f"Bearer {self.access_token}"
                 }
-        full_url = urljoin(self.base_url, path)
-        full_path = full_url + f"{delimiter}output=JSON"
+        full_path = urljoin(self.base_url, path)
+        param.update({"output": "JSON"})
+        encoded_param = urlencode(param, quote_via=quote)
+        full_path = full_path + f"?{encoded_param}"
+        print(full_path)
         response = requests.get(full_path, headers=headers)
         if response.status_code == 200:
             print("******* response ******")

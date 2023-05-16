@@ -33,13 +33,32 @@ class TestCollector(TestCase):
 
     def test_metric_list(self):
         query = {
-            "metric_list": "/controller/rest/applications/439/metrics?metric-path=Overall%20Application%20Performance"
+            "path": "/controller/rest/applications/439/metrics",
+            "params": {"metric-path": "Overall Application Performance"},
+            "data": "/controller/rest/applications/439/metric-data",
         }
         options = {}
         resource = self.monitoring.Metric.list({'secret_data': self.appd_credentials,
                                                 'options': options, 
                                                             'query': query})
 
+        print_json(resource)
+
+    def test_metric_get_data(self):
+        query = {
+            "cloud-svc-ef1d1a49038c": {
+                "path": "/controller/rest/applications/439/metric-data",
+                "params": {"metric-path": "Overall Application Performance|Calls per Minute"}
+                }
+        }
+        options = {}
+        resource = self.monitoring.Metric.get_data({'secret_data': self.appd_credentials,
+                                                'options': options, 
+                                                'metric': 'Calls per Minute',
+                                                'stat': 'AVERAGE',
+                                                "start": "2023-05-08T09:23:22.417Z",
+                                                "end": "2023-05-09T09:23:22.417Z", 
+                                                'metric_query': query})
         print_json(resource)
 
 

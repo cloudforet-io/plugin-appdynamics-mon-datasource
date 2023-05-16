@@ -5,9 +5,9 @@ from schematics.types.compound import ModelType
 __all__ = ['PluginInitResponse']
 
 _SUPPORTED_STAT = [
-    'MEAN',
     'MAX',
     'MIN',
+    'AVERAGE',
     'SUM'
 ]
 
