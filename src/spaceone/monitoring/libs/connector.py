@@ -11,7 +11,7 @@ _LOGGER = logging.getLogger(__name__)
 
 class AppdynamicsConnector(BaseConnector):
 
-    def __init__(self, **kwargs):
+    def __init__(self, *args, **kwargs):
         """
         kwargs
             - schema
@@ -25,7 +25,7 @@ class AppdynamicsConnector(BaseConnector):
             - ...
         """
 
-        super().__init__(transaction=None, connector_conf=None)
+        super().__init__(*args, **kwargs)
 
     def set_connect(self, secret_data):
         # URL: /controller/api/oauth/access_token
@@ -48,10 +48,10 @@ class AppdynamicsConnector(BaseConnector):
             pass
         client_id = f'{client_name}@{account_name}'
         params = f'grant_type=client_credentials&client_id={client_id}&client_secret={client_secret}'
-        full_url = urljoin(BASE_URL , PATH)
+        full_url = urljoin(BASE_URL, PATH)
         response = requests.post(full_url, data=params)
         if response.status_code == 200:
-            self.access_token=response.json()["access_token"]
+            self.access_token = response.json()["access_token"]
         else:
             # fail to get access token
             # TODO
@@ -67,8 +67,8 @@ class AppdynamicsConnector(BaseConnector):
         param: {"p1": "v1", "p2": "v2"}
         """
         headers = {
-                "Authorization" : f"Bearer {self.access_token}"
-                }
+            "Authorization": f"Bearer {self.access_token}"
+        }
         full_path = urljoin(self.base_url, path)
         param.update({"output": "JSON"})
         encoded_param = urlencode(param, quote_via=quote)
